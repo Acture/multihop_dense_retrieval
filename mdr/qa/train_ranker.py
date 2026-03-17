@@ -16,12 +16,11 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from torch.optim import Adam
 from tqdm import tqdm
-from transformers import (AdamW, AutoConfig, AutoTokenizer,
-                          get_linear_schedule_with_warmup)
+from transformers import AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup
 
+from mdr.compat import AdamW, SummaryWriter
 from config import train_args
 from reranking_datasets import RankingDataset, rank_collate
 from reranking_model import RankModel

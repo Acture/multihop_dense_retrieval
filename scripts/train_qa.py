@@ -17,12 +17,11 @@ import torch
 from torch import sparse_coo_tensor
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from torch.optim import Adam
 from tqdm import tqdm
-from transformers import (AdamW, AutoConfig, AutoTokenizer,
-                          get_linear_schedule_with_warmup)
+from transformers import AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup
 
+from mdr.compat import AdamW, SummaryWriter
 from mdr.qa.config import train_args
 from mdr.qa.qa_dataset import QADataset, qa_collate, MhopSampler
 from mdr.qa.qa_model import QAModel

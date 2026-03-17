@@ -17,7 +17,6 @@ def explore(path):
         linked_neg = item["linked_neg"]
         neg_counts.append(len(tfidf_neg + linked_neg))
         
-    import pdb; pdb.set_trace()
     return 
 
 def load_corpus(corpus_path="/private/home/xwhan/data/hotpot/tfidf/abstracts.txt"):

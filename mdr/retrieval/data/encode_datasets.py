@@ -5,7 +5,6 @@
 # LICENSE file in the root directory of this source tree.
 import csv
 import json
-import pdb
 import numpy as np
 from torch.utils.data import Dataset
 from tqdm import tqdm
@@ -92,7 +91,13 @@ class EmDataset(Dataset):
         # if sample["text"].endswith("."):
         #     sample["text"] = sample["text"][:-1]
 
-        sent_codes = self.tokenizer.encode_plus(normalize(sample["title"].strip()), text_pair=sample['text'].strip(), max_length=self.max_len, return_tensors="pt")
+        sent_codes = self.tokenizer(
+            normalize(sample["title"].strip()),
+            text_pair=sample['text'].strip(),
+            max_length=self.max_len,
+            truncation=True,
+            return_tensors="pt",
+        )
 
         return sent_codes
 

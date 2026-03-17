@@ -39,11 +39,10 @@ import numpy as np
 import torch
 from torch.optim import Adam
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
-from transformers import (AdamW, AutoConfig, AutoTokenizer,
-                          get_linear_schedule_with_warmup)
+from transformers import AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup
 
+from mdr.compat import SummaryWriter
 from mdr.retrieval.config import train_args
 from mdr.retrieval.criterions import (mhop_eval, mhop_loss)
 from mdr.retrieval.data.mhop_dataset import MhopDataset, mhop_collate

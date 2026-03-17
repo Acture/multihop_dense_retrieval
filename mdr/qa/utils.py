@@ -46,9 +46,11 @@ def move_to_cuda(sample):
     if len(sample) == 0:
         return {}
 
+    use_cuda = torch.cuda.is_available()
+
     def _move_to_cuda(maybe_tensor):
         if torch.is_tensor(maybe_tensor):
-            return maybe_tensor.cuda()
+            return maybe_tensor.cuda() if use_cuda else maybe_tensor
         elif isinstance(maybe_tensor, dict):
             return {
                 key: _move_to_cuda(value)

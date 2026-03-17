@@ -28,19 +28,21 @@ class MhopDataset(Dataset):
         print(f"Loading data from {data_path}")
         self.data = [json.loads(line) for line in open(data_path).readlines()]
         if train:
-
-            import pdb; pdb.set_trace()
-
-            # debug TODO: remove for final release
             for idx in range(len(self.data)):
-                self.data[idx]["neg_paras"] = self.data[idx]["tfidf_neg"]
-
-
+                tfidf_neg = self.data[idx].get("tfidf_neg")
+                if tfidf_neg is not None:
+                    self.data[idx]["neg_paras"] = tfidf_neg
             self.data = [_ for _ in self.data if len(_["neg_paras"]) >= 2]
         print(f"Total sample count {len(self.data)}")
 
     def encode_para(self, para, max_len):
-        return self.tokenizer.encode_plus(para["title"].strip(), text_pair=para["text"].strip(), max_length=max_len, return_tensors="pt")
+        return self.tokenizer(
+            para["title"].strip(),
+            text_pair=para["text"].strip(),
+            max_length=max_len,
+            truncation=True,
+            return_tensors="pt",
+        )
     
     def __getitem__(self, index):
         sample = self.data[index]
@@ -64,8 +66,19 @@ class MhopDataset(Dataset):
         neg_codes_1 = self.encode_para(sample["neg_paras"][0], self.max_c_len)
         neg_codes_2 = self.encode_para(sample["neg_paras"][1], self.max_c_len)
 
-        q_sp_codes = self.tokenizer.encode_plus(question, text_pair=start_para["text"].strip(), max_length=self.max_q_sp_len, return_tensors="pt")
-        q_codes = self.tokenizer.encode_plus(question, max_length=self.max_q_len, return_tensors="pt")
+        q_sp_codes = self.tokenizer(
+            question,
+            text_pair=start_para["text"].strip(),
+            max_length=self.max_q_sp_len,
+            truncation=True,
+            return_tensors="pt",
+        )
+        q_codes = self.tokenizer(
+            question,
+            max_length=self.max_q_len,
+            truncation=True,
+            return_tensors="pt",
+        )
 
         return {
                 "q_codes": q_codes,

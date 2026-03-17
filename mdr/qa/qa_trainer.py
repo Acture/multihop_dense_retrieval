@@ -24,10 +24,9 @@ import torch.distributed
 import torch.nn as nn
 import torch.optim as optim
 from apex import amp
-from torch.utils.tensorboard import SummaryWriter
-from transformers import (AdamW, AutoConfig, AutoTokenizer,
-                          get_linear_schedule_with_warmup)
+from transformers import AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup
 
+from mdr.compat import AdamW, SummaryWriter
 from config import ClusterConfig
 from hotpot_evaluate_v1 import exact_match_score, f1_score, update_sp
 from qa_model import QAModel
@@ -413,4 +412,3 @@ class Trainer:
 
         model.train()
         return {"em": best_em, "f1": best_f1, "joint_em": best_joint_em, "joint_f1": best_joint_f1}
-

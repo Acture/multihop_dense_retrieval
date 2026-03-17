@@ -20,12 +20,11 @@ import submitit
 from functools import partial
 import numpy as np
 import random
-from torch.utils.tensorboard import SummaryWriter
 from pathlib import Path
 import json
-from transformers import (
-    AdamW, AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup)
+from transformers import AutoConfig, AutoTokenizer, get_linear_schedule_with_warmup
 
+from mdr.compat import AdamW, SummaryWriter
 from torch.optim import Adam
 from .utils.utils import move_to_cuda, AverageMeter
 from .config import ClusterConfig
